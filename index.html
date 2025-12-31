@@ -3,61 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIPHER-X | Karndeep Baror Special Edition</title>
+    <title>KB-CIPHER | Ultra Secure Encryption</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --accent: #00ff88; /* Cyber Green */
-            --accent-glow: rgba(0, 255, 136, 0.3);
-            --bg-deep: #0a0a0c;
-            --card-bg: #121217;
-            --input-bg: #1a1a21;
-            --text-main: #e0e0e0;
-            --text-dim: #88888b;
+            --primary-glow: #00f2ff;
+            --secondary-glow: #bc13fe;
+            --dark-bg: #05070a;
+            --card-bg: rgba(13, 17, 23, 0.8);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
+            background: var(--dark-bg);
+            color: #e6edf3;
+            font-family: 'Rajdhani', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Animated Grid Background */
-        body::before {
-            content: "";
+        /* Moving Background Shapes */
+        .bg-animate {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--input-bg) 1px, transparent 1px), 
-                              linear-gradient(90deg, var(--input-bg) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.2;
             z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.05) 0%, transparent 50%);
         }
 
-        /* --- Navigation --- */
-        nav {
-            padding: 20px 8%;
+        /* --- Header --- */
+        header {
+            padding: 20px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #222;
-            background: rgba(10, 10, 12, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
         }
 
-        .brand { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; }
-        .brand span { color: var(--accent); }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 3px; color: #fff; }
+        .logo span { color: var(--primary-glow); text-shadow: 0 0 10px var(--primary-glow); }
 
-        /* --- Main UI --- */
+        /* --- Main App Card --- */
         .container {
             flex: 1;
             display: flex;
@@ -66,169 +63,148 @@
             padding: 40px 20px;
         }
 
-        .cipher-box {
+        .glass-card {
             background: var(--card-bg);
-            width: 100%;
-            max-width: 500px;
-            padding: 35px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
             border-radius: 24px;
-            border: 1px solid #2a2a35;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.02);
         }
 
-        .mode-switch {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: var(--input-bg);
-            padding: 6px;
-            border-radius: 14px;
-            margin-bottom: 25px;
+        .tab-system {
+            display: flex;
+            background: rgba(0,0,0,0.4);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
         }
 
-        .mode-btn {
-            padding: 12px;
-            border: none;
-            background: none;
-            color: var(--text-dim);
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: 0.3s;
+        .tab-btn {
+            flex: 1; padding: 12px; border: none; background: none; color: #888;
+            cursor: pointer; border-radius: 10px; font-weight: 700; transition: 0.3s;
+            font-family: 'Orbitron', sans-serif; font-size: 0.8rem;
         }
 
-        .mode-btn.active {
-            background: var(--accent);
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
             color: #000;
         }
 
-        .field { margin-bottom: 20px; position: relative; }
-        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 10px; color: var(--primary-glow); font-size: 0.9rem; letter-spacing: 1px; }
 
-        textarea, .pass-input {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid #2a2a35;
-            border-radius: 12px;
-            padding: 15px;
-            color: #fff;
-            font-size: 1rem;
-            transition: 0.3s;
+        textarea, .pass-field {
+            width: 100%; background: var(--input-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 15px; color: #fff; font-size: 1rem; transition: 0.4s;
         }
 
-        textarea:focus, .pass-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        textarea:focus, .pass-field:focus { outline: none; border-color: var(--primary-glow); background: rgba(255,255,255,0.1); }
 
         /* Password Wrapper & Eye Icon */
-        .pass-wrapper { position: relative; }
-        .toggle-eye {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-dim);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .toggle-eye:hover { color: var(--accent); }
+        .pass-wrapper { position: relative; display: flex; align-items: center; }
+        .toggle-eye { position: absolute; right: 15px; cursor: pointer; color: #888; transition: 0.3s; }
+        .toggle-eye:hover { color: var(--primary-glow); }
 
         .btn-action {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
+            width: 100%; padding: 18px; border: none; border-radius: 12px;
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #fff; font-weight: 700; font-family: 'Orbitron', sans-serif;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--accent-glow); }
+        .btn-action:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); }
 
-        .output-area {
-            margin-top: 25px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px dashed #333;
+        .output-box {
+            margin-top: 30px; padding: 20px; border-radius: 12px;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border-color);
         }
 
         /* --- Footer --- */
         footer {
-            background: var(--card-bg);
-            padding: 30px;
+            background: rgba(13, 17, 23, 0.9);
+            padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid #222;
+            border-top: 1px solid var(--border-color);
         }
 
-        .dev-credit { font-size: 1.1rem; font-weight: 500; margin-bottom: 15px; }
-        .dev-credit b { color: var(--accent); }
+        .dev-info h3 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 10px; }
+        .dev-info span { color: var(--primary-glow); }
 
-        .socials { display: flex; justify-content: center; gap: 25px; }
-        .socials a {
-            color: var(--text-dim);
-            font-size: 1.4rem;
-            transition: 0.3s;
+        .social-icons { display: flex; justify-content: center; gap: 30px; margin: 20px 0; }
+        .social-icons a { color: #888; font-size: 1.6rem; transition: 0.4s; }
+        .social-icons a:hover { color: var(--primary-glow); transform: translateY(-5px); }
+
+        .copy-toast {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--primary-glow); color: #000; padding: 10px 20px;
+            border-radius: 50px; font-weight: 700; display: none; z-index: 1000;
         }
-        .socials a:hover { color: var(--accent); transform: translateY(-3px); }
-
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="brand">CIPHER<span>X</span></div>
-        <div style="font-size: 0.8rem; color: var(--accent);"><i class="fas fa-circle"></i> SYSTEM SECURE</div>
-    </nav>
+    <div class="bg-animate"></div>
+
+    <header>
+        <div class="logo">KB-<span>CIPHER</span></div>
+        <div style="color: var(--secondary-glow); font-weight: 700;"><i class="fas fa-microchip"></i> V3.0 PRO</div>
+    </header>
 
     <div class="container">
-        <div class="cipher-box">
-            <div class="mode-switch">
-                <button class="mode-btn active" id="encTab" onclick="setMode('encrypt')">ENCRYPT</button>
-                <button class="mode-btn" id="decTab" onclick="setMode('decrypt')">DECRYPT</button>
+        <div class="glass-card">
+            <div class="tab-system">
+                <button class="tab-btn active" id="encTab" onclick="setMode('encrypt')">ENCRYPT</button>
+                <button class="tab-btn" id="decTab" onclick="setMode('decrypt')">DECRYPT</button>
             </div>
 
-            <div class="field">
-                <label id="msgLabel">Original Message</label>
-                <textarea id="mainInput" rows="4" placeholder="Enter text here..."></textarea>
+            <div class="input-group">
+                <label id="labelInput">ORIGINAL DATA</label>
+                <textarea id="userInput" rows="4" placeholder="Enter your message..."></textarea>
             </div>
 
-            <div class="field">
-                <label>Encryption Key</label>
+            <div class="input-group">
+                <label>SECRET ACCESS KEY</label>
                 <div class="pass-wrapper">
-                    <input type="password" id="passKey" class="pass-input" placeholder="Enter Secret Password">
-                    <i class="fas fa-eye toggle-eye" id="eyeIcon" onclick="togglePass()"></i>
+                    <input type="password" id="passKey" class="pass-field" placeholder="Password required">
+                    <i class="fas fa-eye toggle-eye" id="eyeIcon" onclick="togglePassword()"></i>
                 </div>
             </div>
 
-            <button class="btn-action" onclick="execute()">PROCEED SECURELY</button>
+            <button class="btn-action" onclick="handleLogic()">Run Secure Protocol</button>
 
-            <div class="output-area">
-                <label style="margin-bottom: 10px;">Output Terminal</label>
-                <textarea id="mainOutput" rows="3" readonly placeholder="Result will show here..."></textarea>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button class="btn-action" style="padding:10px; font-size:0.8rem;" onclick="copyOutput()">COPY</button>
-                    <button class="btn-action" style="padding:10px; font-size:0.8rem; background:#333; color:#fff" onclick="location.reload()">RESET</button>
+            <div class="output-box">
+                <label>TERMINAL OUTPUT</label>
+                <textarea id="finalOutput" rows="3" readonly placeholder="Awaiting protocol..."></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-action" style="padding: 10px; font-size: 0.7rem;" onclick="copyOutput()">COPY</button>
+                    <button class="btn-action" style="padding: 10px; font-size: 0.7rem; background: #222;" onclick="resetAll()">RESET</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="toast" class="copy-toast">SUCCESSFULLY COPIED</div>
+
     <footer>
-        <p class="dev-credit">Maintained & Designed by <b>Karndeep Baror</b></p>
-        <div class="socials">
+        <div class="dev-info">
+            <h3>Lead Architect: <span>Karndeep Baror</span></h3>
+        </div>
+        <div class="social-icons">
             <a href="https://instagram.com/your_id" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://linkedin.com/in/your_id" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/your_id" target="_blank"><i class="fab fa-github"></i></a>
         </div>
-        <p style="font-size: 0.7rem; color: #555; margin-top: 15px;">© 2025 KARNDEEP BAROR | AES-256 BIT ENCRYPTION</p>
+        <p style="color: #555; font-size: 0.8rem;">&copy; 2025 ALL RIGHTS RESERVED | KARNDEEP BAROR TECHNOLOGIES</p>
     </footer>
 
     <script>
         let currentMode = 'encrypt';
 
-        function togglePass() {
+        function togglePassword() {
             const passField = document.getElementById('passKey');
             const eye = document.getElementById('eyeIcon');
             if(passField.type === 'password') {
@@ -240,50 +216,62 @@
             }
         }
 
-        function setMode(m) {
-            currentMode = m;
-            document.getElementById('encTab').classList.toggle('active', m === 'encrypt');
-            document.getElementById('decTab').classList.toggle('active', m === 'decrypt');
-            document.getElementById('msgLabel').innerText = m === 'encrypt' ? 'Original Message' : 'Encrypted Code';
-            document.getElementById('mainInput').value = "";
-            document.getElementById('mainOutput').value = "";
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('encTab').classList.toggle('active', mode === 'encrypt');
+            document.getElementById('decTab').classList.toggle('active', mode === 'decrypt');
+            document.getElementById('labelInput').innerText = mode === 'encrypt' ? 'ORIGINAL DATA' : 'ENCRYPTED HASH';
+            document.getElementById('userInput').value = "";
+            document.getElementById('finalOutput').value = "";
         }
 
-        function execute() {
-            const data = document.getElementById('mainInput').value;
+        function handleLogic() {
+            const data = document.getElementById('userInput').value;
             const key = document.getElementById('passKey').value;
-            const output = document.getElementById('mainOutput');
+            const output = document.getElementById('finalOutput');
 
-            if(!data || !key) return alert("Security Check: Input and Key required!");
+            if(!data || !key) {
+                alert("Security Protocol: Key and Message are mandatory!");
+                return;
+            }
 
             try {
                 if(currentMode === 'encrypt') {
-                    const encrypted = CryptoJS.AES.encrypt(data, key).toString();
-                    // Custom 'Baror-Language' encoding (Base64 + Signature)
-                    const secretLang = "KBX_" + btoa(encrypted).split('').reverse().join('') + "_Z";
-                    output.value = secretLang;
+                    // AES Encryption
+                    const cipher = CryptoJS.AES.encrypt(data, key).toString();
+                    // Advanced Custom Language (Salt + Base64 + Signature)
+                    const signature = "KB-SECURE";
+                    output.value = signature + "::" + btoa(cipher);
                 } else {
-                    const step1 = data.replace("KBX_", "").replace("_Z", "");
-                    const step2 = step1.split('').reverse().join('');
-                    const step3 = atob(step2);
-                    const bytes = CryptoJS.AES.decrypt(step3, key);
+                    const cleanData = data.split("::")[1];
+                    const decodedData = atob(cleanData);
+                    const bytes = CryptoJS.AES.decrypt(decodedData, key);
                     const original = bytes.toString(CryptoJS.enc.Utf8);
                     
                     if(!original) throw new Error();
                     output.value = original;
                 }
             } catch(e) {
-                alert("ACCESS DENIED: Incorrect Key or Data Corrupted!");
+                alert("ACCESS DENIED: Incorrect Security Key!");
             }
         }
 
         function copyOutput() {
-            const out = document.getElementById('mainOutput');
-            out.select();
+            const text = document.getElementById('finalOutput');
+            if(!text.value) return;
+            text.select();
             document.execCommand('copy');
-            alert("Copied to Secure Clipboard!");
+            
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+        }
+
+        function resetAll() {
+            document.getElementById('userInput').value = "";
+            document.getElementById('finalOutput').value = "";
+            document.getElementById('passKey').value = "";
         }
     </script>
 </body>
 </html>
-
