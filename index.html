@@ -3,62 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CipherVault Pro | Advanced Data Security</title>
+    <title>CipherVault Enterprise | Karndeep Baror</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-main: #020617;
-            --card-surface: #0f172a;
-            --accent: #38bdf8;
-            --border-glow: rgba(56, 189, 248, 0.2);
-            --text-p: #94a3b8;
-            --text-h: #f8fafc;
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --bg-dark: #020617;
+            --card-surface: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-h);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-        }
-
-        /* Modern Mesh Gradient Background */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
-            z-index: -1;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.1) 0px, transparent 50%);
         }
 
         /* --- Header --- */
         nav {
-            height: 70px;
-            padding: 0 10%;
+            padding: 1.5rem 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(2, 6, 23, 0.8);
-            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .nav-logo { font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        .nav-logo i { color: var(--accent); }
+        .brand { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
+        .brand i { color: var(--primary); }
 
-        .system-status { font-size: 0.75rem; color: #10b981; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-        .dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+        .secure-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex; align-items: center; gap: 6px;
+        }
 
-        /* --- Main UI --- */
-        .hero-section {
+        /* --- Main UI Card --- */
+        .app-wrapper {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -66,217 +68,220 @@
             padding: 40px 20px;
         }
 
-        .pro-card {
+        .glass-card {
             background: var(--card-surface);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
             width: 100%;
-            max-width: 520px;
+            max-width: 540px;
             padding: 40px;
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
-            transition: 0.3s;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.7);
         }
 
-        .pro-card:hover { border-color: var(--border-glow); }
-
-        .tab-switcher {
+        .tab-group {
             display: flex;
-            gap: 10px;
-            background: rgba(2, 6, 23, 0.4);
+            background: rgba(0, 0, 0, 0.3);
             padding: 6px;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 30px;
         }
 
-        .tab-btn {
+        .tab {
             flex: 1; padding: 12px; border: none; background: transparent;
-            color: var(--text-p); font-weight: 600; cursor: pointer; border-radius: 8px;
-            transition: 0.3s; font-size: 0.9rem;
+            color: var(--text-muted); font-weight: 600; cursor: pointer;
+            border-radius: 10px; transition: 0.3s; font-size: 0.9rem;
         }
 
-        .tab-btn.active { background: var(--accent); color: #020617; }
+        .tab.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
 
-        .input-wrap { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-p); font-weight: 500; letter-spacing: 0.5px; }
+        /* --- Form Fields --- */
+        .input-box { margin-bottom: 24px; position: relative; }
+        label { display: block; margin-bottom: 10px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        textarea, .field-input {
-            width: 100%; background: #020617; border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; padding: 14px; color: #fff; font-size: 0.95rem;
+        textarea, .input-field {
+            width: 100%; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 16px; color: white; font-size: 1rem;
             transition: 0.3s;
         }
 
-        textarea:focus, .field-input:focus { outline: none; border-color: var(--accent); }
+        textarea:focus, .input-field:focus { outline: none; border-color: var(--primary); background: rgba(0, 0, 0, 0.4); }
 
-        /* Eye Icon Integration */
-        .password-container { position: relative; }
-        .eye-toggle {
-            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-            color: #475569; cursor: pointer; transition: 0.2s;
+        .pass-input-wrap { position: relative; }
+        .eye-icon {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); cursor: pointer; transition: 0.2s;
         }
-        .eye-toggle:hover { color: var(--accent); }
+        .eye-icon:hover { color: var(--primary); }
 
-        .btn-primary {
-            width: 100%; padding: 16px; background: var(--accent); color: #020617;
-            border: none; border-radius: 12px; font-weight: 700; font-size: 1rem;
-            cursor: pointer; transition: 0.2s; margin-top: 10px;
-        }
-
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2); }
-
-        .output-section {
-            margin-top: 30px; padding-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+        /* --- Buttons --- */
+        .btn-execute {
+            width: 100%; padding: 18px; background: var(--primary); color: white;
+            border: none; border-radius: 14px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
 
-        .action-row { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-execute:hover { transform: translateY(-2px); background: var(--primary-light); }
+
+        .output-panel {
+            margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);
+        }
+
+        .util-row { display: flex; gap: 12px; margin-top: 12px; }
         .btn-sec {
-            flex: 1; padding: 10px; background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1); color: var(--text-h);
-            border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+            flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border); color: var(--text-muted);
+            border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
         }
-        .btn-sec:hover { background: rgba(255,255,255,0.08); }
+        .btn-sec:hover { background: rgba(255, 255, 255, 0.08); color: white; }
 
         /* --- Footer --- */
         footer {
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border);
             background: #010409;
         }
 
-        .social-box { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        .social-box a { color: var(--text-p); font-size: 1.4rem; transition: 0.3s; }
-        .social-box a:hover { color: var(--accent); transform: translateY(-3px); }
+        .socials { display: flex; justify-content: center; gap: 24px; margin-bottom: 24px; }
+        .socials a { color: var(--text-muted); font-size: 1.5rem; transition: 0.3s; }
+        .socials a:hover { color: var(--primary); transform: translateY(-4px); }
 
-        .dev-info { font-size: 0.85rem; color: var(--text-p); }
-        .dev-info b { color: var(--accent); font-weight: 600; }
+        .credit { font-size: 0.9rem; color: var(--text-muted); }
+        .credit span { color: var(--primary); font-weight: 700; }
 
-        /* Notification */
         #toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: #10b981; color: white; padding: 10px 30px;
-            border-radius: 50px; font-weight: 600; display: none; animation: fadeIn 0.3s;
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--primary); color: white; padding: 10px 30px;
+            border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+            display: none; animation: slideDown 0.4s ease; z-index: 1000;
         }
-        @keyframes fadeIn { from { opacity: 0; bottom: 20px; } to { opacity: 1; bottom: 30px; } }
+        @keyframes slideDown { from { transform: translate(-50%, -100%); } to { transform: translate(-50%, 0); } }
     </style>
 </head>
 <body>
 
-    <div id="toast">Copied Successfully</div>
+    <div id="toast">Protocol Executed Successfully</div>
 
     <nav>
-        <div class="nav-logo"><i class="fas fa-key"></i> CIPHERVAULT</div>
-        <div class="system-status"><span class="dot"></span> Secure Connection</div>
+        <div class="brand"><i class="fas fa-shield-halved"></i> CIPHERVAULT</div>
+        <div class="secure-badge"><i class="fas fa-lock"></i> 256-BIT ENCRYPTION</div>
     </nav>
 
-    <main class="hero-section">
-        <div class="pro-card">
-            <div class="tab-switcher">
-                <button class="tab-btn active" id="encTab" onclick="changeMode('encrypt')">ENCRYPT</button>
-                <button class="tab-btn" id="decTab" onclick="changeMode('decrypt')">DECRYPT</button>
+    <main class="app-wrapper">
+        <div class="glass-card">
+            <div class="tab-group">
+                <button class="tab active" id="encTab" onclick="setMode('encrypt')">ENCRYPT DATA</button>
+                <button class="tab" id="decTab" onclick="setMode('decrypt')">DECRYPT DATA</button>
             </div>
 
-            <div class="input-wrap">
-                <label id="inputLabel">Source Message</label>
-                <textarea id="dataInput" rows="4" placeholder="Enter private content..."></textarea>
+            <div class="input-box">
+                <label id="msgLabel">Original Payload</label>
+                <textarea id="mainInput" rows="5" placeholder="Enter sensitive information here..."></textarea>
             </div>
 
-            <div class="input-wrap">
-                <label>Security Key</label>
-                <div class="password-container">
-                    <input type="password" id="passKey" class="field-input" placeholder="Min. 8 characters recommended">
-                    <i class="fas fa-eye eye-toggle" id="eye" onclick="toggleVisibility()"></i>
+            <div class="input-box">
+                <label>Access Credential</label>
+                <div class="pass-input-wrap">
+                    <input type="password" id="mainKey" class="input-field" placeholder="Enter security passphrase">
+                    <i class="fas fa-eye eye-icon" id="eye" onclick="togglePass()"></i>
                 </div>
             </div>
 
-            <button class="btn-primary" onclick="handleAction()">
-                <span id="btnText">Process Encryption</span>
+            <button class="btn-execute" onclick="runProcess()">
+                <span id="btnTxt">Execute Encryption</span>
             </button>
 
-            <div class="output-section">
-                <label>Generated Result</label>
-                <textarea id="dataOutput" rows="3" readonly placeholder="Secure hash will appear here..."></textarea>
-                <div class="action-row">
+            <div class="output-panel">
+                <label>Secure Hash Result</label>
+                <textarea id="mainOutput" rows="3" readonly placeholder="Secure hash will be generated..."></textarea>
+                <div class="util-row">
                     <button class="btn-sec" onclick="copyData()"><i class="far fa-copy"></i> Copy Hash</button>
-                    <button class="btn-sec" onclick="resetUI()"><i class="fas fa-sync-alt"></i> Reset</button>
+                    <button class="btn-sec" onclick="location.reload()"><i class="fas fa-trash-alt"></i> Clear Session</button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer>
-        <div class="social-box">
+        <div class="socials">
             <a href="https://instagram.com/your_id" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://linkedin.com/in/your_id" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/your_id" target="_blank"><i class="fab fa-github"></i></a>
         </div>
-        <p class="dev-info">Developed and Architected by <b>Karndeep Baror</b></p>
-        <p style="font-size: 0.7rem; color: #444; margin-top: 10px;">Military Grade AES-256 Bit Standard Encryption</p>
+        <p class="credit">System Engineered by <span>Karndeep Baror</span></p>
+        <p style="font-size: 0.75rem; color: #475569; margin-top: 12px; letter-spacing: 1px;">© 2025 ALL DATA IS PROCESSED LOCALLY. NO SERVER STORAGE.</p>
     </footer>
 
     <script>
         let mode = 'encrypt';
 
-        function toggleVisibility() {
-            const pass = document.getElementById('passKey');
-            const icon = document.getElementById('eye');
-            if(pass.type === 'password') {
-                pass.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
+        function togglePass() {
+            const passField = document.getElementById('mainKey');
+            const eye = document.getElementById('eye');
+            if(passField.type === 'password') {
+                passField.type = 'text';
+                eye.classList.replace('fa-eye', 'fa-eye-slash');
             } else {
-                pass.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
+                passField.type = 'password';
+                eye.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
 
-        function changeMode(m) {
+        function setMode(m) {
             mode = m;
             document.getElementById('encTab').classList.toggle('active', m === 'encrypt');
             document.getElementById('decTab').classList.toggle('active', m === 'decrypt');
-            document.getElementById('inputLabel').innerText = m === 'encrypt' ? 'Source Message' : 'Encrypted Hash';
-            document.getElementById('btnText').innerText = m === 'encrypt' ? 'Process Encryption' : 'Process Decryption';
-            resetUI();
+            document.getElementById('msgLabel').innerText = m === 'encrypt' ? 'Original Payload' : 'Encrypted Hash';
+            document.getElementById('btnTxt').innerText = m === 'encrypt' ? 'Execute Encryption' : 'Unlock Payload';
+            document.getElementById('mainInput').value = "";
+            document.getElementById('mainOutput').value = "";
         }
 
-        function handleAction() {
-            const input = document.getElementById('dataInput').value;
-            const key = document.getElementById('passKey').value;
-            const output = document.getElementById('dataOutput');
+        function runProcess() {
+            const input = document.getElementById('mainInput').value;
+            const key = document.getElementById('mainKey').value;
+            const output = document.getElementById('mainOutput');
 
-            if(!input || !key) return alert("System Notice: Inputs required!");
+            if(!input || !key) return showToast("Error: Missing Credentials", "#ef4444");
 
             try {
                 if(mode === 'encrypt') {
+                    // Triple Logic: AES-256 + Base64 + Protocol Wrapper
                     const encrypted = CryptoJS.AES.encrypt(input, key).toString();
-                    // Professional 'Secret Language' Wrap
-                    output.value = "HSH_PRO_" + btoa(encrypted);
+                    const wrapped = "PROTOCOL_v3::" + btoa(encrypted);
+                    output.value = wrapped;
+                    showToast("Encryption Complete");
                 } else {
-                    const hash = input.replace("HSH_PRO_", "");
-                    const cipherText = atob(hash);
-                    const bytes = CryptoJS.AES.decrypt(cipherText, key);
-                    const result = bytes.toString(CryptoJS.enc.Utf8);
+                    const raw = input.replace("PROTOCOL_v3::", "");
+                    const decoded = atob(raw);
+                    const bytes = CryptoJS.AES.decrypt(decoded, key);
+                    const original = bytes.toString(CryptoJS.enc.Utf8);
                     
-                    if(!result) throw new Error();
-                    output.value = result;
+                    if(!original) throw new Error();
+                    output.value = original;
+                    showToast("Decryption Complete");
                 }
             } catch(e) {
-                alert("Security Alert: Invalid Key or Hash Format!");
+                showToast("Access Denied: Invalid Key", "#ef4444");
             }
         }
 
         function copyData() {
-            const out = document.getElementById('dataOutput');
-            if(!out.value) return;
-            out.select();
+            const res = document.getElementById('mainOutput');
+            if(!res.value) return;
+            res.select();
             document.execCommand('copy');
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 2500);
+            showToast("Copied to Secure Clipboard");
         }
 
-        function resetUI() {
-            document.getElementById('dataInput').value = "";
-            document.getElementById('dataOutput').value = "";
-            document.getElementById('passKey').value = "";
+        function showToast(msg, color = "#6366f1") {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.background = color;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
         }
     </script>
 </body>
