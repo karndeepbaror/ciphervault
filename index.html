@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIPHER-PRO | Ultra Secure Messaging</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <nav class="navbar">
+        <div class="logo"><i class="fas fa-shield-alt"></i> CIPHER<span>PRO</span></div>
+        <div class="status-badge"><span class="dot"></span> End-to-End Encrypted</div>
+    </nav>
+
+    <main class="app-container">
+        <section class="glass-card main-panel">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('encrypt')">Encrypt</button>
+                <button class="tab-btn" onclick="switchTab('decrypt')">Decrypt</button>
+            </div>
+
+            <div class="input-section">
+                <label id="inputLabel">Secret Message</label>
+                <textarea id="messageInput" placeholder="Enter your private data here..."></textarea>
+                
+                <div class="key-wrapper">
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="secretKey" placeholder="Secret Key (Password)">
+                    </div>
+                    <button class="btn-secondary" onclick="generatePass()">🎲 Auto-Gen</button>
+                </div>
+            </div>
+
+            <div class="action-zone">
+                <button id="mainBtn" onclick="handleProcess()" class="btn-primary">
+                    <span id="btnText">Encrypt & Lock</span>
+                </button>
+            </div>
+
+            <div class="output-section">
+                <div class="output-header">
+                    <span>Result</span>
+                    <button onclick="copyText()" class="copy-icon"><i class="far fa-copy"></i> Copy</button>
+                </div>
+                <textarea id="resultOutput" readonly placeholder="Output will appear here..."></textarea>
+            </div>
+            
+            <div class="footer-actions">
+                <button onclick="clearAll()" class="btn-danger"><i class="fas fa-trash-alt"></i> Destruct Session</button>
+                <button onclick="shareWhatsApp()" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Share</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
