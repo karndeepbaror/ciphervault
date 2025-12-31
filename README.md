@@ -2,7 +2,7 @@
 
 `CipherVault` is a privacy-first, browser-based encryption utility that empowers users to securely encrypt and decrypt sensitive data using industry-grade `AES-256 encryption` — without relying on any server, database, or backend. 
 
-Designed with a zero-knowledge architecture and elegant UI, this tool is ideal for privacy advocates, cyber professionals, educators, and anyone who values data sovereignty.
+Designed with a zero-knowledge architecture and elegant UI, this tool is ideal for privacy advocates, cyber professionals, educators, and anyone who values `data sovereignty`.
 
 
 <p align="center">
@@ -64,9 +64,9 @@ Most users store or share data without understanding the risk of leaks. CipherVa
 
 ***🧪 Technology Stack:***
 
-- *JavaScript (Vanilla)*
+- *JavaScript `(Vanilla)`*
 - *HTML5 / CSS3*
-- *Crypto API (AES-GCM Mode)*
+- *Crypto API `(AES-GCM Mode)`*
 - No external libraries, No frameworks
 
 
